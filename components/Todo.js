@@ -1,42 +1,56 @@
 class Todo {
   constructor(data, selector) {
-    // Store todo data (name, id, completed, date, etc.)
     this._data = data;
-
-    // Template element selector (used to clone todo HTML structure)
-    this._templateElement = document.querySelector(selector);
+    this._name = data.name;
+    this._completed = data.completed;
+    this._selector = selector; // Template selector
   }
 
-  // Add event listeners for delete button and checkbox
+  // ======= TEMPLATE =======
+  _getTemplate() {
+    return document
+      .querySelector(this._selector)
+      .content.querySelector(".todo")
+      .cloneNode(true);
+  }
+
+  // ======= NAME ELEMENT =======
+  _generateNameEl() {
+    this._nameEl = this._todoElement.querySelector(".todo__name");
+    this._nameEl.textContent = this._name;
+  }
+
+  // ======= EVENT HANDLERS =======
+  _handleDelete = () => {
+    this._todoElement.remove();
+    this._todoElement = null; // Help garbage collection
+  };
+
+  _handleCheck = () => {
+    this._completed = !this._completed;
+  };
+
+  // ======= EVENT LISTENERS =======
   _setEventListeners() {
-    // Delete todo when delete button is clicked
-    this._todoDeleteBtn.addEventListener("click", () => {
-      this._todoElement.remove();
-    });
-
-    // Toggle completed state when checkbox changes
-    this._todoCheckboxEl.addEventListener("change", () => {
-      this._data.completed = !this._data.completed;
-    });
+    this._todoDeleteBtn.addEventListener("click", this._handleDelete);
+    this._todoCheckboxEl.addEventListener("change", this._handleCheck);
   }
 
-  // Initialize checkbox and label, set checked state and id
+  // ======= CHECKBOX & LABEL =======
   _generateCheckboxEl() {
-    this._todoCheckboxEl = this._todoElement.querySelector(".todo__completed"); // Checkbox element
-    this._todoLabel = this._todoElement.querySelector(".todo__label"); // Label element
+    this._todoCheckboxEl = this._todoElement.querySelector(".todo__completed");
+    this._todoLabel = this._todoElement.querySelector(".todo__label");
 
-    // Set initial state and link label to checkbox
-    this._todoCheckboxEl.checked = this._data.completed;
+    this._todoCheckboxEl.checked = this._completed;
     this._todoCheckboxEl.id = `todo-${this._data.id}`;
     this._todoLabel.setAttribute("for", `todo-${this._data.id}`);
   }
 
-  // Set and render the due date if valid
+  // ======= DUE DATE =======
   _setDueDate() {
-    this._dueDateObj = new Date(this._data.date); // Convert stored date to Date object
+    this._dueDateObj = new Date(this._data.date);
 
     if (!isNaN(this._dueDateObj)) {
-      // Format date as "Due: Month Day, Year"
       this._todoDate.textContent = `Due: ${this._dueDateObj.toLocaleString(
         "en-US",
         {
@@ -48,31 +62,17 @@ class Todo {
     }
   }
 
-  // Create and return the DOM element representing this todo
+  // ======= GENERATE DOM =======
   getView() {
-    // Clone the template element for a new todo
-    this._todoElement = this._templateElement.content
-      .querySelector(".todo")
-      .cloneNode(true);
+    this._todoElement = this._getTemplate(); // Clone template
+    this._todoDate = this._todoElement.querySelector(".todo__date");
+    this._todoDeleteBtn = this._todoElement.querySelector(".todo__delete-btn");
 
-    // Cache elements for manipulation
-    this._todoNameEl = this._todoElement.querySelector(".todo__name"); // Todo name
-    this._todoDate = this._todoElement.querySelector(".todo__date"); // Due date
-    this._todoDeleteBtn = this._todoElement.querySelector(".todo__delete-btn"); // Delete button
+    this._generateNameEl(); // Populate name element
+    this._setDueDate(); // Populate due date
+    this._generateCheckboxEl(); // Setup checkbox and label
+    this._setEventListeners(); // Attach event listeners
 
-    // Set text content
-    this._todoNameEl.textContent = this._data.name;
-
-    // Render the due date
-    this._setDueDate();
-
-    // Set up checkbox and label
-    this._generateCheckboxEl();
-
-    // Attach event listeners
-    this._setEventListeners();
-
-    // Return the completed DOM element for rendering
     return this._todoElement;
   }
 }

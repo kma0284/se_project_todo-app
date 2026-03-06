@@ -52,14 +52,24 @@ class FormValidator {
     }
   }
 
+  // Disable the submit button and apply inactive styles
+  _disableSubmitButton() {
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._buttonElement.disabled = true;
+  }
+
+  // Enable the submit button and remove inactive styles
+  _enableSubmitButton() {
+    this._buttonElement.classList.remove(this._inactiveButtonClass);
+    this._buttonElement.disabled = false;
+  }
+
   // Enable or disable the submit button based on input validity
   _toggleButtonState() {
     if (this._hasInvalidInput()) {
-      this._buttonElement.classList.add(this._inactiveButtonClass); // Apply disabled style
-      this._buttonElement.disabled = true; // Disable the button
+      this._disableSubmitButton();
     } else {
-      this._buttonElement.classList.remove(this._inactiveButtonClass); // Remove disabled style
-      this._buttonElement.disabled = false; // Enable the button
+      this._enableSubmitButton();
     }
   }
 
