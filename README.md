@@ -1,17 +1,56 @@
-# Simple Todo App
+Simple Todo App
 
-Give a brief description of the project here. Feel free to give it a different name.
+A simple and interactive Todo application that allows users to add, view, and manage tasks. The app helps users keep track of their daily responsibilities by creating and organizing a list of tasks.
 
-## Functionality
+Functionality
 
-Give a more detailed explanation of the project and its functionality.
+The Todo App allows users to:
 
-## Technology
+-Add new tasks to a list
 
-Give a description of the technologies and techniques used. Pictures, GIFs, or screenshots that detail the project features are recommended.
+-View all tasks in a structured format
 
-## Deployment
+-Mark tasks as completed
 
-This project is deployed on GitHub Pages:
+-Remove tasks from the list
 
-- ADD LINK HERE
+-Prevent submitting empty tasks
+
+-Dynamically update the interface using JavaScript
+
+-The app updates the task list instantly without refreshing the page, creating a smooth and responsive user experience.
+
+Technology
+
+This project was built using the following technologies:
+
+-HTML5 – Structure of the application
+
+-CSS3 – Styling and layout of the interface
+
+-JavaScript (ES6) – Application logic and interactivity
+
+-DOM Manipulation – Dynamically updating the page content
+
+-Form Validation – Ensuring user inputs are valid
+
+Techniques used include:
+
+-Event listeners
+
+-Modular JavaScript structure
+
+-Class-based components
+
+-Form validation handling
+
+-refactoring data and configuration objects
+
+
+Deployment
+
+This project can be viewed live here:
+
+GitHub Pages:
+
+https://github.com/kma0284/se_project_todo-app.git
