@@ -53,4 +53,4 @@ This project can be viewed live here:
 
 GitHub Pages:
 
-kma0284.github.io/todo-app
+[kma0284.github.io/todo-app](https://kma0284.github.io/se_project_todo-app/)
