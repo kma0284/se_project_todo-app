@@ -11,27 +11,32 @@ export default class Todo {
 
   // clone template and set values
   _getTemplate() {
-    const template = document
+    return document
       .querySelector(this._templateSelector)
       .content.querySelector(".todo")
       .cloneNode(true);
-    return template;
   }
 
   // setup events: checkbox and delete button
   _setEventListeners() {
     // checkbox toggle
     this._checkbox.addEventListener("change", () => {
-      this._completed = this._checkbox.checked;
-      this._counter.updateCompleted(this._completed);
+      const isChecked = this._checkbox.checked;
+
+      if (isChecked !== this._completed) {
+        this._counter.updateCompleted(isChecked);
+      }
+
+      this._completed = isChecked;
     });
 
     // delete button
     this._deleteButton.addEventListener("click", () => {
       if (this._completed) {
-        this._counter.updateCompleted(false); // decrease completed if it was checked
+        this._counter.updateCompleted(false);
       }
-      this._counter.updateTotal(false); // decrease total
+
+      this._counter.updateTotal(false);
       this._element.remove();
     });
   }
@@ -40,24 +45,31 @@ export default class Todo {
   getView() {
     this._element = this._getTemplate();
 
-    // ✅ Use the correct class names matching the template
+    // elements
     this._checkbox = this._element.querySelector(".todo__completed");
     this._deleteButton = this._element.querySelector(".todo__delete-btn");
     this._nameElement = this._element.querySelector(".todo__name");
     this._dateElement = this._element.querySelector(".todo__date");
 
-    // set initial values
+    // label
+    const label = this._element.querySelector(".todo__label");
+
+    // unique checkbox id
+    this._checkbox.id = `todo-${this._id}`;
+
+    // associate label with checkbox
+    if (label) {
+      label.htmlFor = this._checkbox.id;
+    }
+
+    // set text values
     this._nameElement.textContent = this._name;
     this._dateElement.textContent = this._date
       ? this._date.toLocaleDateString()
       : "";
 
+    // set checkbox state
     this._checkbox.checked = this._completed;
-
-    // increment completed if this todo is initially checked
-    if (this._completed) {
-      this._counter.updateCompleted(true);
-    }
 
     this._setEventListeners();
 
